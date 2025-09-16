@@ -1,0 +1,130 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+@use './theme-colors' as my-theme;
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+.full-width {
+  width: 100%;
+}
+
+.narrow-container {
+  max-width: 1000px;
+}
+
+$angular-material-3-theme: mat.define-theme(
+  (
+    color: (
+      primary: my-theme.$primary-palette,
+      tertiary: my-theme.$tertiary-palette,
+      theme-type: 'light',
+    ),
+    typography: (
+      plain-family: Roboto,
+      brand-family: Open Sans,
+      bold-weight: 900,
+      medium-weight: 500,
+      regular-weight: 300,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+@mixin layout-theme($theme) {
+  .sidenav-scroll-wrapper {
+    background-color: var(--mat-sys-surface-dim);
+  }
+  .heading {
+    background-color: rgba(mat.get-theme-color($theme, primary-container), 0.75);
+  }
+  .sidenav-content {
+    @media (pointer: fine) {
+      &::-webkit-scrollbar-thumb {
+        background-color: mat.get-theme-color($theme, primary);
+      }
+    }
+  }
+}
+
+html {
+  color-scheme: light dark;
+  @include mat.theme($angular-material-3-theme);
+  @include mat.system-level-colors($angular-material-3-theme);
+  @include mat.all-component-themes($angular-material-3-theme);
+  @include layout-theme($angular-material-3-theme);
+  @media (prefers-contrast: more) {
+    @include my-theme.high-contrast-overrides(color-scheme);
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  &.dark-mode {
+    color-scheme: dark;
+  }
+
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+.mat-mdc-table {
+  .mat-mdc-row:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.025);
+  }
+
+  .mat-mdc-row:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    transition: background-color 0.2s ease;
+  }
+
+  .mat-mdc-cell,
+  .mat-mdc-header-cell {
+    padding: 8px !important;
+  }
+
+  .mat-mdc-header-row {
+    background-color: var(--mat-sys-surface-container-high);
+  }
+
+  .mat-mdc-row.selected {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+}
+
+.table-container {
+  max-height: 500px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+
+    &:hover {
+      background: #555;
+    }
+  }
+}
+
+.responsive-table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
