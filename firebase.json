@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "dist/expense-tracker/browser",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
